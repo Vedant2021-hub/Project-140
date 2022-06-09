@@ -57,12 +57,11 @@ function gotPoses(results) {
 
 function startGame() {
   game_status = "start";
-  document.getElementById("status").innerHTML = "Game Is Loading";
+  document.getElementById("status").innerHTML = "Game Is Loaded";
 }
 
 
 function draw() {
-
   background(0);
   image(video, 0, 0, 700, 600);
 
@@ -73,15 +72,16 @@ function draw() {
   fill("black");
   stroke("black");
   rect(0, 0, 20, 700);
-
-  //funtion paddleInCanvas call 
-  paddleInCanvas();
+  if (game_status == "start")
+  {
+    //funtion paddleInCanvas call 
+    paddleInCanvas();
 
   //left paddle
   fill(250, 0, 0);
   stroke(0, 0, 250);
   strokeWeight(0.5);
-  paddle1Y = mouseY;
+  paddle1Y = rightWristY;
   rect(paddle1X, paddle1Y, paddle1, paddle1Height, 100);
 
 
@@ -102,6 +102,7 @@ function draw() {
 
   //function move call which in very important
   move();
+  }
 }
 
 
