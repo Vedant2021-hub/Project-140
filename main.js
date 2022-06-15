@@ -29,6 +29,11 @@ rightWristY = 0;
 scoreRightWrist = 0;
 game_status = "";
 
+function preload() {
+  ball_touch_paddel = loadSound("ball_touch_paddel.wav");
+  missed = loadSound("missed.wav")
+}
+
 function setup() {
   var canvas = createCanvas(700, 600);
   canvas.parent('canvas');
@@ -72,36 +77,35 @@ function draw() {
   fill("black");
   stroke("black");
   rect(0, 0, 20, 700);
-  if (game_status == "start")
-  {
+  if (game_status == "start") {
     //funtion paddleInCanvas call 
     paddleInCanvas();
 
-  //left paddle
-  fill(250, 0, 0);
-  stroke(0, 0, 250);
-  strokeWeight(0.5);
-  paddle1Y = rightWristY;
-  rect(paddle1X, paddle1Y, paddle1, paddle1Height, 100);
+    //left paddle
+    fill(250, 0, 0);
+    stroke(0, 0, 250);
+    strokeWeight(0.5);
+    paddle1Y = rightWristY;
+    rect(paddle1X, paddle1Y, paddle1, paddle1Height, 100);
 
 
-  //pc computer paddle
-  fill("#FFA500");
-  stroke("#FFA500");
-  var paddle2y = ball.y - paddle2Height / 2;
-  rect(paddle2Y, paddle2y, paddle2, paddle2Height, 100);
+    //pc computer paddle
+    fill("#FFA500");
+    stroke("#FFA500");
+    var paddle2y = ball.y - paddle2Height / 2;
+    rect(paddle2Y, paddle2y, paddle2, paddle2Height, 100);
 
-  //function midline call
-  midline();
+    //function midline call
+    midline();
 
-  //funtion drawScore call 
-  drawScore();
+    //funtion drawScore call 
+    drawScore();
 
-  //function models call  
-  models();
+    //function models call  
+    models();
 
-  //function move call which in very important
-  move();
+    //function move call which in very important
+    move();
   }
 }
 
@@ -155,8 +159,10 @@ function move() {
   if (ball.x - 2.5 * ball.r / 2 < 0) {
     if (ball.y >= paddle1Y && ball.y <= paddle1Y + paddle1Height) {
       ball.dx = -ball.dx + 0.5;
+      ball_touch_paddel.play();
     } else {
       pcscore++;
+      missed.play();
       reset();
       navigator.vibrate(100);
     }
